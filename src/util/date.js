@@ -29,5 +29,4 @@ function diff(a, b=Date.now(), buf=[]) {
   return buf.join(' ')
 }
 
-exports.diff = diff
-exports.calc = calc
+module.exports = { diff, calc }
