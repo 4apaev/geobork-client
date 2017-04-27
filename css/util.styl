@@ -1,0 +1,329 @@
+_rdx1 = 3px
+_rdx2 = 5px
+_rdx3 = 1em
+
+_primary  = #428bca
+_success  = #5cb85c
+_info     = #5bc0de
+_warning  = #f0ad4e
+_danger   = #d9534f
+_prime = _primary
+_brand = #fa5515
+_ok    = _success
+_err   = _danger
+
+_yellow = #e6b22b
+
+_grey1 = #eee
+_grey2 = #ccc
+_grey  = #999
+_grey3 = #666
+_grey4 = #333
+
+_green1 = mediumaquamarine
+_green2 = #008800
+_green3 = darkseagreen
+_green4 = mediumseagreen
+
+_red1 = #f88472
+_red2 = #f6750d
+_red3 = #f33314
+_red4 = crimson
+_app = _red3
+
+_blue1 = skyblue
+_blue2 = #539bcd
+_blue3 = #39506a
+_blue4 = navy
+
+_txt = _grey4
+_btnDef = _red1
+_nav = _red2
+_active = _red3
+_link = #799999
+
+
+_fnt1 = 'Open Sans', sans-serif
+_fnt2 = 'Vollkorn', serif
+_fnt3 = "Helvetica Neue", Helvetica, Arial, sans-serif
+_fnt4 = Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+// FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+noop(v)
+  return v
+
+size(w, h=w)
+  width: w
+  height: h
+
+fn-map(list, cb=noop)
+  map=()
+  push(map, cb(k, v, list)) for k, v in list
+  return map
+
+fn-pos(pos, args...)
+  position: pos
+  for dir, i in top right bottom left
+    if args[i] is a 'unit'
+      {dir}: args[i]
+
+fn-pos-center(p=absolute, w=32em)
+  position: p
+  width: w
+  margin-left: -(w/2)
+  left 50%
+
+fn-theme(b, c=darken(b, 30%), h=darken(b, 35%))
+  background-color: b
+  color: c
+  &:hover
+    background-color: darken(b, 15%)
+    color: h
+
+fn-sprite(list, w, h, pref)
+  for val, i in list
+    x = (i%w)*w
+    y = floor(i/w)*h
+    .{pref + val}
+      &:before
+        background-position: -1*x  -1*y
+
+fn-ico(prefix, family, hash)
+  px = prefix+'-'
+  [class^={ px }], [class*={ ' ' + px }], .{ prefix }
+    &:before
+      padding 0 .5em
+      font-size 1em
+      speak none
+      font-family family
+      font-style normal
+      font-weight normal
+      font-variant normal
+      text-transform none
+      display inline-block
+      -webkit-font-smoothing antialiased
+      -moz-osx-font-smoothing grayscale
+
+  for key, val in hash
+    .{ px + key }:before
+      content: val
+
+fn-dropbox(h=3em, hh=99em, b=#fff)
+  bgc: b
+  max-h: h
+  top: .5em
+  left: .5em
+  z-index: 9
+  overflow: hidden
+  position: absolute
+  transition: all .3s
+  transition-delay: .75s
+  &:hover
+    max-h: hh
+    z-index: 999
+    overflow-y: auto
+    transition-delay: 0s
+
+
+vendor(prop, args...)
+  -webkit-{prop}: args
+     -moz-{prop}: args
+          {prop}: args
+
+trans()
+  -webkit-transition: arguments
+  -moz-transition: arguments
+  transition: arguments
+
+anim()
+  -webkit-animation: arguments
+  -moz-animation: arguments
+  animation: arguments
+
+appr(a=none)
+  -webkit-appearance: a
+  -moz-appearance: a
+  appearance: a
+
+cols(n=3, g=0, c=transparent)
+  -webkit-columns: n
+  -moz-columns: n
+  columns: n
+  -webkit-gap: g
+  -moz-gap: g
+  gap: g
+  -webkit-rule: 1px solid c
+  -moz-rule: 1px solid c
+  rule: 1px solid c
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+// SHORTCUTS
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+imp = unquote('!important')
+
+fz()
+  font-size: arguments
+rd()
+  border-radius: arguments
+bg()
+  background: arguments
+bgc()
+  background-color: arguments
+
+positions = {
+  top: top,
+  bottom: bottom,
+  left: left,
+  right: right,
+  t: top,
+  b: bottom,
+  l: left,
+  r: right
+}
+
+brd(pos, sz=1px, cl=#ccc, st=solid)
+  border-{positions[pos]}: sz st cl
+
+bt(n=1px, c=#ccc)
+  border-top n solid c
+bb(n=1px, c=#ccc)
+  border-bottom n solid c
+bl(n=1px, c=#ccc)
+  border-left n solid c
+br(n=1px, c=#ccc)
+  border-right n solid c
+
+shd(c, args...)
+  if c is a 'rgba' and !args
+    box-shadow: 0 0 0 1px c
+  else
+    box-shadow: arguments
+
+lnh(n=1)
+  line-height: n
+
+
+min-h(n)
+  min-height: n
+min-w(n)
+  min-width: n
+max-h(n)
+  max-height: n
+max-w(n)
+  max-width: n
+
+mrg-t(n)
+  margin-top: n
+mrg-r(n)
+  margin-right: n
+mrg-b(n)
+  margin-bottom: n
+mrg-l(n)
+  margin-left: n
+
+pad-t(n)
+  padding-top: n
+pad-r(n)
+  padding-right: n
+pad-b(n)
+  padding-bottom: n
+pad-l(n)
+  padding-left: n
+
+trans()
+  transition: arguments
+
+anim()
+  animation: arguments
+
+appr(a=none)
+  appearance: a
+
+cols(n=2, g=0, c=transparent)
+  columns: n
+  column-gap: g
+  column-rule: 1px solid c
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+// COMMON
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+$clear
+  shd    : none
+  border : none
+  bg     : transparent
+
+$mute
+  user-select: none
+  pointer-events: none
+
+$nowrap
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+$ico
+  font-style: normal
+  font-weight: normal
+  display: inline-block
+  padding: 0 .25em
+  text-decoration: none
+  font-variant: normal
+  text-transform: none
+
+
+.fx
+  display: flex
+.fx-row
+  display: flex
+  flex-direction: row
+.fx-col
+  display: flex
+  flex-direction: column
+.box
+  flex:1
+
+.right
+  float: right
+.left
+  float: left
+
+.block
+  display:block
+  position: relative
+
+.hidden
+  display:none imp
+
+.scroll-y
+  overflow-y: auto
+
+::-webkit-scrollbar
+  width .5em
+::-webkit-scrollbar-track
+  shd inset 1px 0 2px #ccc
+::-webkit-scrollbar-thumb
+  bg #ccc
+  shd inset 0 0 5px #aaa
+
+
+
+

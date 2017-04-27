@@ -1,0 +1,22 @@
+{
+  "name": "geobork-client",
+  "version": "1.0.0",
+  "description": "geobork-client",
+  "main": "index.js",
+  "author": {
+    "name": "Michael Miretski",
+    "email": "4apaev@gmail.com"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "scripts": {
+    "start" : "node index"
+  },
+  "dependencies": {
+    "is": "git@github.com:4apaev/is.git#assert",
+    "miniserver": "git@github.com:4apaev/miniserver.git",
+    "pug": "latest",
+    "stylus": "latest"
+  }
+}
