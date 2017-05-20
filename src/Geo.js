@@ -22,7 +22,7 @@ module.exports = class Geo extends GMap {
           this.createInfo(Tmpls.info).open(this.map, this.marker)
         })
 
-        this.el.on('click button.btn.btn-ok', this.add, this)
+        this.el.addEventListener('click button.btn.btn-ok', this.add.bind(this))
         PubSub.emit('ready')
     })
     .catch(err => {

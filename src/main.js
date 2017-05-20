@@ -1,4 +1,4 @@
-require('dom');
+//require('dom');
 
 const Geo = require('./Geo')
 const Ctrl = require('./Ctrl')

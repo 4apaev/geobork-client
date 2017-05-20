@@ -4,8 +4,9 @@ const { aside } = require('./util/templates')
 
 module.exports = class Ctrl {
   constructor(el) {
-    this.el = el.on('change', this.setup, this)
-    this.el.html = aside(this.query = {
+    this.el = el
+    this.el.addEventListener('change', this.setup.bind(this))
+    this.el.innerHTML = aside(this.query = {
       radius:1500,
       minutes:30,
       hours:1,

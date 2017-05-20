@@ -14,8 +14,8 @@
     "start" : "node index"
   },
   "dependencies": {
-    "is": "git@github.com:4apaev/is.git#assert",
-    "miniserver": "git@github.com:4apaev/miniserver.git",
+    "miniserver": "https://github.com/4apaev/miniserver.git",
+    "browserify": "latest",
     "pug": "latest",
     "stylus": "latest"
   }

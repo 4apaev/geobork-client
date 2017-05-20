@@ -1,5 +1,5 @@
 // const HOST = 'localhost'
-const HOST = '95.85.60.200'
+const HOST = 'geobork.gregory.beer'
 
 const URL = `http://${ HOST }:3000/v1/borks`,
       method = 'POST',

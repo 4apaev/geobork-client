@@ -1,6 +1,6 @@
 'use strict';
 
-const PORT = 5000
+const { PORT=3001 } = process.env;
 const apiKey = 'AIzaSyAf0WIFYuPX73ZG6DnQebznewgcwH0GXWA'
 const app = require('miniserver')()
 
