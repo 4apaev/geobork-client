@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>geobork</title>
+    <style> #map, html, body { height: 100%; margin: 0; padding: 0;} </style>
+    <script>
+      this.log = this.initMap = console.log
+      document.addEventListener('DOMContentLoaded', () => {
+
+        getPos().then(position => {
+          const URL = `https://localhost:3000/v2/borks`
+          const borks = []
+          const map = new google.maps.Map(document.getElementById('map'), { zoom: 16 })
+          const marker = new google.maps.Marker({ map, position, draggable: true })
+          const icon = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`<?xml version="1.0" encoding="UTF-8"?><svg width="16px" height="16px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <path d="M16.0003537,19.6140769 C16,26.2599599 16,32.0347498 16,32.0347498 C16,32.0347498 16,26.2601761 15.9996463,19.6144502 L12.3129156,21.5597263 L13.0276458,17.3773781 L10,14.4154226 L14.1841036,13.8052262 L15.9988691,10.1147402 C15.9981919,4.49355506 15.9971092,0 15.9953781,0 C14.4511879,1.95841181 10.8310495,3.54968641 8.08614675,0.130838134 C8.02871558,0.130838134 5.49731071,1.9659695 0.491932122,5.63623222 C3.04239207,6.68418535 4.20912978,8.46086597 3.99214527,10.9662741 C3.66666851,14.7243863 -0.442600438,16.0804052 0.0392323747,21.8283353 C0.739566912,30.182839 12.9804611,28.3619216 16,32.0347498 C19.0195389,28.3619216 31.2604331,30.182839 31.9607676,21.8283353 C32.4426004,16.0804052 28.3333315,14.7243863 28.0078547,10.9662741 C27.7908702,8.46086597 28.9576079,6.68418535 31.5080679,5.63623222 C26.5026893,1.9659695 23.9712844,0.130838134 23.9138532,0.130838134 C21.1689505,3.54968641 17.5488121,1.95841181 16.0046219,0 C16.0028913,0 16.0018087,4.49110331 16.0011315,10.1101393 L16.0552916,10 L17.9264796,13.8052262 L22.1105832,14.4154226 L19.0829374,17.3773781 L19.7976676,21.5597263 L16.0552916,19.5850893 L16.0003537,19.6140769 Z" fill="#000000"></path>
+          </g></svg>`)
+          map.setCenter(position)
+
+          marker.addListener('dragend', () => {
+            list(marker.position.toJSON()).then(resolve)
+          })
+
+          marker.addListener('click', () => {
+              confirm('add inspector?') && add(marker.position.toJSON()).then(x => set(x.result))
+            })
+
+          list(marker.position.toJSON()).then(resolve)
+
+          function resolve({ ok, result }) {
+              clear()
+              result.forEach(set)
+            }
+
+          function set({ loc }) {
+              const [ lat,lng ] = loc
+              borks.push(new google.maps.Marker({ map, icon, position: { lat, lng }}))
+            }
+
+          function clear(bork) {
+              while(bork=borks.pop())
+                bork.setMap(null)
+            }
+
+          function add({ lng, lat }) {
+              return fetch(`${ URL }/add?lat=${ lat }&lng=${ lng }`)
+                        .then(x => x.json())
+            }
+          function list({ lng, lat }) {
+              return fetch(`${ URL }?lat=${ lat }&lng=${ lng }`)
+                        .then(x => x.json())
+            }
+        })
+
+        function getPos() {
+          return new Promise((done, fail) => {
+            navigator.geolocation.getCurrentPosition(pos => {
+              done({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+            }, err => {
+              log(err)
+              done({ lat: 32.095307399999996, lng: 34.79066839999996 })
+            }, { timeout: 5000 })
+          })
+        }
+
+      });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf0WIFYuPX73ZG6DnQebznewgcwH0GXWA&callback=initMap"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

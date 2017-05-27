@@ -11,12 +11,8 @@
     "type": "git"
   },
   "scripts": {
-    "start" : "node index"
+    "start" : "node index",
+    "build" : "docker-compose up -d --build"
   },
-  "dependencies": {
-    "miniserver": "https://github.com/4apaev/miniserver.git",
-    "browserify": "latest",
-    "pug": "latest",
-    "stylus": "latest"
-  }
+  "dependencies": {}
 }
