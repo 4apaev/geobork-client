@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start" : "node index",
-    "build" : "docker-compose up -d --build"
+    "build" : "cp ../*.pem . && docker-compose up -d --build"
   },
   "dependencies": {}
 }

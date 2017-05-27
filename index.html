@@ -3,7 +3,19 @@
   <head>
     <meta charset="UTF-8">
     <title>geobork</title>
-    <style> #map, html, body { height: 100%; margin: 0; padding: 0;} </style>
+    <style>
+      #map, html, body { height: 100%; margin: 0; padding: 0;}
+      #msg {
+        padding: 1em;
+        background: #fff;
+        position: absolute;
+        top: 8em;
+        width: 32em;
+        left: 50%;
+        margin-left:-16em;
+        box-shadow: 0 1px 3px rgba(0,0,0,.5)
+      }
+    </style>
     <script>
       this.log = this.initMap = console.log
       document.addEventListener('DOMContentLoaded', () => {
@@ -34,6 +46,14 @@
               result.forEach(set)
             }
 
+          function fail(err) {
+              document.body.insertAdjacentHTML('beforeend',`<div id="msg"><p>${ err.message }</p><p>${ err.stack }</p></div>`)
+              setTimeout(() => {
+                let x = document.getElementById('map')
+                x && x.remove()
+              }, 15000)
+            }
+
           function set({ loc }) {
               const [ lat,lng ] = loc
               borks.push(new google.maps.Marker({ map, icon, position: { lat, lng }}))
@@ -47,10 +67,12 @@
           function add({ lng, lat }) {
               return fetch(`${ URL }/add?lat=${ lat }&lng=${ lng }`)
                         .then(x => x.json())
+                        .catch(fail)
             }
           function list({ lng, lat }) {
               return fetch(`${ URL }?lat=${ lat }&lng=${ lng }`)
                         .then(x => x.json())
+                        .catch(fail)
             }
         })
 
@@ -60,7 +82,7 @@
               done({ lat: pos.coords.latitude, lng: pos.coords.longitude })
             }, err => {
               log(err)
-              done({ lat: 32.095307399999996, lng: 34.79066839999996 })
+              done({ lat: 32.097, lng: 34.790 })
             }, { timeout: 5000 })
           })
         }
