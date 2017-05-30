@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport' content='width=device-width')
+    title GEOBORK
+    style
+      include css/style.css
+    script.
+      this.$ = document.getElementById.bind(document);
+      this.log = this.initMap = console.log;
+    script
+      include src/main.js
+
+  body
+    #map
+    #modal(style="display: none")
+      p#message
+      pre#stack
+      button(onclick="$('modal').style.display='none'") ✖
+
+    script(async src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAf0WIFYuPX73ZG6DnQebznewgcwH0GXWA&callback=initMap&sensor=false")

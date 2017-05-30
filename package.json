@@ -12,6 +12,7 @@
   },
   "scripts": {
     "start" : "node index",
+    "pug" : "pug -P index.pug",
     "build" : "cp ../*.pem . && docker-compose up -d --build"
   },
   "dependencies": {}
