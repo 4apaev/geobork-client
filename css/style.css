@@ -1,0 +1,4 @@
+#map, html, body { height: 100%; margin: 0; padding: 0;}
+#modal { padding: 1em; background: #fff; position: absolute; top: 8em; width: 32em; left: 50%; margin-left:-16em; border-radius: 5px; box-shadow: 0 0 0 199em rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.5); }
+#modal button { position: absolute; top: 0; right: .25rem; background: transparent; border: none; cursor: pointer; line-height: 2; font-size: 1rem; }
+#modal button:hover { color:tomato; }
