@@ -1,34 +1,34 @@
 'use strict';
 
+const { PORT=3001 } = process.env;
 const Fs = require('fs');
 const Https = require('https')
-const { STATUS_CODES } = require('http')
-const { PORT = 3001 } = process.env;
-const { log } = console
+const path = './index.html'
+const cert = Fs.readFileSync('./cert.pem')
+const key  = Fs.readFileSync('./key.pem')
+const body = Fs.readFileSync(path)
 
-const html = Fs.readFileSync('./index.html')
-const certs = {
-  key: Fs.readFileSync('./key.pem'),
-  cert: Fs.readFileSync('./cert.pem')
-}
+Https.createServer({ key, cert }, (req, res) => {
 
+  if (req.method==='GET' && req.url==='/')
+    serveStream(res)
+  else
+    notFound(res)
 
-Https.createServer(certs, (req, res) => {
-  let code, body;
-  if (req.method==='GET' && req.url==='/') {
-    code = 200
-    body = html
-  } else {
-    code = 404
-    body = '<h1>404 Not Found....</h1>'
+})
+  .listen(PORT, () => console.log('geobork client on', PORT))
+
+function serveStream(res) {
+    res.writeHead(200, 'Ok', { 'Content-Type': 'text/html' })
+    Fs.createReadStream(path).pipe(res);
   }
-  res.statusCode = code;
-  res.statusMessage = STATUS_CODES[ code ];
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Content-Length', body.length);
-  res.end(body);
-  log(code, req.method, req.url)
 
-}).listen(PORT, () => {
-    log('geobork client on ', PORT)
-  })
+function serveCached(res) {
+    res.writeHead(200, 'Ok', { 'Content-Type': 'text/html', 'Content-Length': body.length })
+    res.end(body);
+  }
+
+function notFound(res) {
+    res.writeHead(404, 'Not Found', { 'Content-Type': 'text/html' })
+    res.end()
+  }
