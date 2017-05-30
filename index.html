@@ -2,96 +2,104 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>geobork</title>
-    <style>
-      #map, html, body { height: 100%; margin: 0; padding: 0;}
-      #msg {
-        padding: 1em;
-        background: #fff;
-        position: absolute;
-        top: 8em;
-        width: 32em;
-        left: 50%;
-        margin-left:-16em;
-        box-shadow: 0 1px 3px rgba(0,0,0,.5)
-      }
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>GEOBORK</title>
+    <style>#map, html, body { height: 100%; margin: 0; padding: 0;}
+#modal { padding: 1em; background: #fff; position: absolute; top: 8em; width: 32em; left: 50%; margin-left:-16em; border-radius: 5px; box-shadow: 0 0 0 199em rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.5); }
+#modal button { position: absolute; top: 0; right: .25rem; background: transparent; border: none; cursor: pointer; line-height: 2; font-size: 1rem; }
+#modal button:hover { color:tomato; }
     </style>
     <script>
-      this.log = this.initMap = console.log
-      document.addEventListener('DOMContentLoaded', () => {
-
-        getPos().then(position => {
-          const URL = `https://localhost:3000/v2/borks`
-          const borks = []
-          const map = new google.maps.Map(document.getElementById('map'), { zoom: 16 })
-          const marker = new google.maps.Marker({ map, position, draggable: true })
-          const icon = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`<?xml version="1.0" encoding="UTF-8"?><svg width="16px" height="16px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <path d="M16.0003537,19.6140769 C16,26.2599599 16,32.0347498 16,32.0347498 C16,32.0347498 16,26.2601761 15.9996463,19.6144502 L12.3129156,21.5597263 L13.0276458,17.3773781 L10,14.4154226 L14.1841036,13.8052262 L15.9988691,10.1147402 C15.9981919,4.49355506 15.9971092,0 15.9953781,0 C14.4511879,1.95841181 10.8310495,3.54968641 8.08614675,0.130838134 C8.02871558,0.130838134 5.49731071,1.9659695 0.491932122,5.63623222 C3.04239207,6.68418535 4.20912978,8.46086597 3.99214527,10.9662741 C3.66666851,14.7243863 -0.442600438,16.0804052 0.0392323747,21.8283353 C0.739566912,30.182839 12.9804611,28.3619216 16,32.0347498 C19.0195389,28.3619216 31.2604331,30.182839 31.9607676,21.8283353 C32.4426004,16.0804052 28.3333315,14.7243863 28.0078547,10.9662741 C27.7908702,8.46086597 28.9576079,6.68418535 31.5080679,5.63623222 C26.5026893,1.9659695 23.9712844,0.130838134 23.9138532,0.130838134 C21.1689505,3.54968641 17.5488121,1.95841181 16.0046219,0 C16.0028913,0 16.0018087,4.49110331 16.0011315,10.1101393 L16.0552916,10 L17.9264796,13.8052262 L22.1105832,14.4154226 L19.0829374,17.3773781 L19.7976676,21.5597263 L16.0552916,19.5850893 L16.0003537,19.6140769 Z" fill="#000000"></path>
-          </g></svg>`)
-          map.setCenter(position)
-
-          marker.addListener('dragend', () => {
-            list(marker.position.toJSON()).then(resolve)
-          })
-
-          marker.addListener('click', () => {
-              confirm('add inspector?') && add(marker.position.toJSON()).then(x => set(x.result))
-            })
-
-          list(marker.position.toJSON()).then(resolve)
-
-          function resolve({ ok, result }) {
-              clear()
-              result.forEach(set)
-            }
-
-          function fail(err) {
-              document.body.insertAdjacentHTML('beforeend',`<div id="msg"><p>${ err.message }</p><p>${ err.stack }</p></div>`)
-              setTimeout(() => {
-                let x = document.getElementById('map')
-                x && x.remove()
-              }, 15000)
-            }
-
-          function set({ loc }) {
-              const [ lat,lng ] = loc
-              borks.push(new google.maps.Marker({ map, icon, position: { lat, lng }}))
-            }
-
-          function clear(bork) {
-              while(bork=borks.pop())
-                bork.setMap(null)
-            }
-
-          function add({ lng, lat }) {
-              return fetch(`${ URL }/add?lat=${ lat }&lng=${ lng }`)
-                        .then(x => x.json())
-                        .catch(fail)
-            }
-          function list({ lng, lat }) {
-              return fetch(`${ URL }?lat=${ lat }&lng=${ lng }`)
-                        .then(x => x.json())
-                        .catch(fail)
-            }
-        })
-
-        function getPos() {
-          return new Promise((done, fail) => {
-            navigator.geolocation.getCurrentPosition(pos => {
-              done({ lat: pos.coords.latitude, lng: pos.coords.longitude })
-            }, err => {
-              log(err)
-              done({ lat: 32.097, lng: 34.790 })
-            }, { timeout: 5000 })
-          })
-        }
-
-      });
+      this.$ = document.getElementById.bind(document);
+      this.log = this.initMap = console.log;
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf0WIFYuPX73ZG6DnQebznewgcwH0GXWA&callback=initMap"></script>
+    <script>((exports, URL, icon) => {
+    const app = exports.app = { init, BORKS: [] }
+    function init(center) {
+        app.map = new google.maps.Map($('map'), {
+            center,
+            zoom: 16
+          })
+        app.marker = new google.maps.Marker({
+            map: app.map,
+            position: center,
+            draggable: true
+          })
+        app.marker.addListener('click', e => {
+            confirm('add inspector?') && sync('add')
+          })
+        app.marker.addListener('dragend', e => {
+            sync()
+          })
+        sync()
+      }
+    function sync(...args) {
+        return fetch(`${ [ URL, ...args ].join('/') }?lat=${ app.marker.position.lat() }&lng=${ app.marker.position.lng() }`)
+                .then(x => x.json())
+                .then(resolve)
+                .catch(fail)
+      }
+    function resolve({ err, result }) {
+        if (Array.isArray(result)) {
+          clear(), result.forEach(spawn)
+        } else if (result) {
+          spawn(result)
+        } else {
+          fail(err)
+        }
+      }
+    function spawn({ loc, updated }) {
+        app.BORKS.push(new google.maps.Marker({
+          icon,
+          updated,
+          map: app.map,
+          position: {
+            lat: loc[ 0 ],
+            lng: loc[ 1 ]
+          }
+        }))
+      }
+    function clear() {
+        app.BORKS.forEach(bork => bork.setMap(null))
+        app.BORKS.length = 0
+      }
+    function fail(err) {
+        $('message').textContent = err.message
+        $('stack').textContent = err.stack
+        $('modal').removeAttribute('style')
+      }
+  })(this, `https://localhost:3000/v2/borks`, {
+    scale: .5,
+    fillColor: 'tomato',
+    strokeColor: 'crimson',
+    fillOpacity: 1,
+    strokeWeight: 2,
+    path: `M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z`
+  })
+
+document.addEventListener('DOMContentLoaded', () => {
+    navigator.geolocation.getCurrentPosition(pos => app.init({
+      lat: pos.coords.latitude,
+      lng: pos.coords.longitude
+    }), err => app.init({
+      lat: 32.097,
+      lng: 34.790
+    }), {
+      timeout: 5000,
+      maximumAge: 1000,
+      enableHighAccuracy: true
+    })
+  });
+    </script>
   </head>
   <body>
     <div id="map"></div>
+    <div id="modal" style="display: none">
+      <p id="message"></p>
+      <pre id="stack"></pre>
+      <button onclick="$('modal').style.display='none'">✖</button>
+    </div>
+    <script async src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;key=AIzaSyAf0WIFYuPX73ZG6DnQebznewgcwH0GXWA&amp;callback=initMap&amp;sensor=false"></script>
   </body>
 </html>
