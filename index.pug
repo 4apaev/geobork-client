@@ -15,9 +15,27 @@ html
 
   body
     #map
+
+    //- #picker.picker
+    //-   header
+    //-     button(name="prev" value=-1) ❮
+    //-     input(name="year" type="number")
+    //-     select(name="month")
+    //-       each month, i in "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(',')
+    //-         option(value=i)=month
+    //-     input(name="date" type="number")
+    //-     button(name="next" value=1) ❯
+    //-   blockquote
+    //-   nav
+    //-     each day in "sun,mon,tue,wed,thu,fri,sat".split(',')
+    //-       b=day
+    //-   main
+
     #modal(style="display: none")
       p#message
       pre#stack
       button(onclick="$('modal').style.display='none'") ✖
 
     script(async src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAf0WIFYuPX73ZG6DnQebznewgcwH0GXWA&callback=initMap&sensor=false")
+    //- script
+    //-   include src/Tic.js
