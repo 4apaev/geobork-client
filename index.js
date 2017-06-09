@@ -4,8 +4,8 @@ const { PORT=3001 } = process.env;
 const Fs = require('fs');
 const Https = require('https')
 const path = './index.html'
-const cert = Fs.readFileSync('./cert.pem')
-const key  = Fs.readFileSync('./key.pem')
+const cert = Fs.readFileSync('./conf/cert.pem')
+const key  = Fs.readFileSync('./conf/key.pem')
 const body = Fs.readFileSync(path)
 
 Https.createServer({ key, cert }, (req, res) => {
