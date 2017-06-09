@@ -1,0 +1,102 @@
+.picker
+  position absolute
+  top 4em
+  left 2em
+  padding 1em
+  background #fff
+  max-width 32em
+  text-align center
+  nav
+    margin-bottom: 1em;
+    > *
+    border-radius 3px
+    box-shadow 0 0 0 1px #ccc
+    background #fff
+    padding 0 .5em
+    margin 0 .5em
+    line-height 2
+    max-width 8em
+    flex 1
+
+    > button
+      max-width 2em
+      margin 0
+      padding 0
+
+  table
+    width 100%
+    border-collapse collapse
+    table-layout fixed
+  th, td
+    border 1px solid #ccc
+    text-align center
+  td:nth-child(6), td:nth-child(7)
+    background gainsboro
+  td.prev, td.next
+    color #aaa
+  td.active
+    color coral
+  button[name=now]
+    margin-top 1em
+    line-height 2
+    padding 0 .5em
+    border-radius 3px
+
+
+.picker
+  position absolute
+  top 4em
+  left 4em
+  padding: 1em
+  border-radius: 3px
+  box-shadow: 0 0 0 1px #ccc
+  transition: all .2s
+  overflow: hidden
+  background #fff
+  input, select, button
+    padding: 0 .5em
+    box-shadow: 0 0 0 1px #ccc
+    line-height: 2
+    border-radius: 3px
+    text-align: center
+    margin: 0 .5em
+    display inline-block
+  nav
+    input
+      max-width: 6em
+    select
+      min-width: 33%
+  .dropbox
+    position: absolute
+    opacity: 0
+    transition: all .5s
+    background: #fff
+    border-radius: 3px
+    box-shadow: 0 0 0 1px #ccc
+    padding: 1em
+    left: 1em
+    right: 1em
+    top: 100%
+
+  table
+    width:100%
+    table-layout:fixed
+    border-collapse: collapse;
+    margin-bottom: 1em
+    td, th
+      text-align: center
+      padding:1em
+      border: 1px solid #ccc
+    td.active
+      color: tomato
+      background:#ccc
+    td.prev, td.next
+      color: #ccc
+    td:nth-child(6), td:nth-child(7)
+      background: aliceblue;
+
+.picker:hover
+  overflow:visible
+  .dropbox
+    opacity: 1
+    z-index:999

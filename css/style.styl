@@ -1,0 +1,36 @@
+@require 'reset'
+@require 'util'
+
+#map, html, body
+  height 100%
+
+body
+  color #666
+  font 14px/24px "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
+  overflow hidden
+
+h1, h2,h3,h4
+  mrg-b 1em
+
+#modal
+  display block
+  transition all .35s
+  position fixed
+  top 8em
+  left 50%
+  width 32em
+  max-w 32em
+  padding 1em
+  mrg-l -16em
+  bg #fff
+  rd .5em
+  shd 0 0 0 299em rgba(0,0,0,.35)
+  button.close
+    position absolute
+    top 0
+    right 0
+    bg transparent
+    &:hover
+      color _err
+
+//@require 'tic'

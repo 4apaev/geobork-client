@@ -1,0 +1,7 @@
+.FTRB {
+  position: fixed;
+  top: 0;
+  right: 8em;
+  bottom: 16em;
+  background-image: linear-gradient(180deg, #f0f0f0 0%, #fff 100%);
+}

@@ -1,0 +1,63 @@
+b = #f0f0f0
+c = #ccc
+l = 2
+r = 3px
+ow = rgba(255,255,255, .75)
+ob = rgba(0,0,0, .75)
+
+.picker
+  bg ow
+  rd r
+  shd 0 1px 3px ob
+  pos absolute 4em u u 4em
+  padding 1em
+
+  header
+    display flex
+    > *
+      ta center
+      rd r
+      shd c
+      lnh l
+      padding 0 1em
+
+    button
+      bg skyblue
+      flex 1
+      color white
+    select
+      appr none
+      flex 3
+    input[type="number"]
+      flex 2
+      margin 0 .5em
+
+  nav
+    display flex
+    b
+      flex 1
+      ta center
+    .box
+      flex 1
+      &:nth-child(6), &:nth-child(7)
+        label
+          bg beige
+    label
+      bg white
+      ta center
+      shd c
+      cursor pointer
+      display block
+
+    input[type=radio]
+      display none
+      &:checked + label
+        bg gold
+
+    .offside label
+      bg b
+      color c
+
+
+
+

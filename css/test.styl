@@ -1,0 +1,27 @@
+u=null
+
+size(w, h=w)
+  width: w
+  height: h
+
+pos(p, args...)
+  position p
+  for side, i in top right bottom left
+    if args[ i ] is a 'unit'
+      { side }: args[ i ]
+
+
+center(w, t=8em, p=absolute)
+  width w
+  pos p t u u 50%
+  margin-left: -(w/2)
+
+grad(a, b=transparent, d=180deg, from=0%, to=100%)
+  background-image linear-gradient(d, a from, b to)
+
+
+.FTRB
+  pos fixed 0 8em 16em
+  grad  #f0f0f0 #fff
+
+

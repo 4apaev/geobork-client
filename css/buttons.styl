@@ -1,0 +1,66 @@
+brd = rgba(0,0,0,0.2)
+
+button, .btn
+  rd             3px
+  lnh            2
+  border         none
+  outline        none
+  padding        0 0.5em
+  cursor         pointer
+  display        inline-block
+  vertical-align middle
+  color #0f0f0f
+  grad  #f0f0f0 #fff
+  shd 0 0 0 1px brd
+
+  @extend $nowrap
+
+.btn-group
+  rd 3px
+  shd 0 0 0 1px brd
+  display flex
+  overflow hidden
+  > [class*='btn']
+    flex 1
+    rd 0px
+
+
+
+
+
+
+.btn-option
+  padding 0
+  input
+    display none
+    &:checked + label
+      bg _ok
+      color #fff
+  label
+    rd 0
+    display block
+    text-align center
+
+
+.btn-info
+  fn-theme: _info #fff
+
+.btn-ok
+  fn-theme: _ok #fff
+
+.btn-err
+  fn-theme: _err #fff
+
+.btn-warning
+  fn-theme: _warning #fff
+
+input
+  lnh 2
+  rd 3px
+  padding 0 .5em
+  shd #ccc
+
+.field
+  display block
+  mrg-b 1em
+
