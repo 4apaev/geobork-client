@@ -12,8 +12,11 @@
   },
   "scripts": {
     "start" : "node index",
-    "pug" : "pug -P index.pug",
-    "build" : "cp ../*.pem . && docker-compose up -d --build"
+    "pug"   : "pug -P index.pug",
+    "css"   : "stylus -c --sourcemap-inline css/style.styl",
+    "cert"  : "cp ../*.pem ./conf",
+    "dock"  : "docker-compose up -d --build",
+    "build" : "npm run css && npm run pug && npm run dock"
   },
   "dependencies": {}
 }
