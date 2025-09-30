@@ -21,7 +21,7 @@ module.exports = class Gmap {
         done({ lat: pos.coords.latitude, lng: pos.coords.longitude })
       }, err => {
         log(err)
-        done({ lat: 32.095307399999996, lng: 34.79066839999996 })
+        done({ lat: 0, lng: 0 })
       }, { timeout: 5000 })
     })
   }
